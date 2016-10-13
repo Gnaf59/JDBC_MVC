@@ -12,10 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.sql.SQLException;
 import javax.swing.JOptionPane;
-import com.gauthier.model.Adherent;
-import com.gauthier.model.Representation;
 
 /**
  *
@@ -30,7 +27,6 @@ public class ControlerReservation {
         this.model = model;
         this.view = viewReservation;
         
-        this.ajoutListener();
     }
 
     public void ajoutListener() {
@@ -45,18 +41,8 @@ public class ControlerReservation {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!"".equals(view.getChampNombrePers().getText()) && !"".equals(view.getListAdherent().getSelectedItem().toString()) && !"".equals(view.getListRepresentation().getSelectedItem().toString())) {
-                    try {
-                        GestionDonnees bdd = new GestionDonnees();
-                        bdd.getConnection();
-                        Adherent adherent = GestionDonnees.getAdherentList().get(view.getListAdherent().getSelectedIndex());
-                        Representation representation = GestionDonnees.getRepresentationList().get(view.getListRepresentation().getSelectedIndex());
-                        bdd.enregistrementReservation(representation, adherent, Integer.parseInt(view.getChampNombrePers().getText()));
-                        bdd.closeConnection();
-
-                        JOptionPane.showMessageDialog(null, "Reservation effectué avec succés", "Reservation", JOptionPane.INFORMATION_MESSAGE);
-                    } catch (SQLException ex) {
-                        JOptionPane.showMessageDialog(null, ex.getMessage(), "Erreur Requête SQL", JOptionPane.ERROR_MESSAGE);
-                    }
+                    
+                    model.enregistrementReservation(view.getListAdherent().getSelectedIndex(), view.getListRepresentation().getSelectedIndex(), Integer.parseInt(view.getChampNombrePers().getText()));
 
                 } else {
                     JOptionPane.showMessageDialog(null, "Veuillez remplir correctement les champs\n aucun champ vide accepté", "ERREUR", JOptionPane.ERROR_MESSAGE);

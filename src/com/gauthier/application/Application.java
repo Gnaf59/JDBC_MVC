@@ -25,6 +25,7 @@ public class Application  {
         ViewReservation viewReservation=new ViewReservation(model);
         ControlerReservation controlerReservation= new ControlerReservation(model,viewReservation);
         model.addObserver(viewReservation);
+        controlerReservation.ajoutListener();
     }
     
 }
